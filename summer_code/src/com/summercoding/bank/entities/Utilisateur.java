@@ -147,7 +147,7 @@ public class Utilisateur {
              stmt.setObject(1, iduser);
              ResultSet rs =stmt.executeQuery();
              while(rs.next()){
-                return new Utilisateur(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5), rs.getString(6), rs.getDate(7).toLocalDate(), rs.getInt(8));
+                return new Utilisateur(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5), rs.getDate(6).toLocalDate(),rs.getString(7), rs.getInt(8));
              }
              return null;
     }
@@ -158,7 +158,7 @@ public class Utilisateur {
              stmt.setObject(2, password);
              ResultSet rs =stmt.executeQuery();
              while(rs.next()){
-                 return new Utilisateur(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5), rs.getString(6), rs.getDate(7).toLocalDate(), rs.getInt(8));
+                 return new Utilisateur(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5), rs.getDate(6).toLocalDate(),rs.getString(7), rs.getInt(8));
              }
              return null;
     }
@@ -170,7 +170,7 @@ public class Utilisateur {
              
              while(rs.next()){
                  
-                listUtilisateur.add(new Utilisateur(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5), rs.getString(6), rs.getDate(7).toLocalDate(), rs.getInt(8)));
+                listUtilisateur.add(new Utilisateur(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5), rs.getDate(6).toLocalDate(),rs.getString(7), rs.getInt(8)));
              }
              return listUtilisateur;
     }
@@ -178,7 +178,7 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public Utilisateur(int iduser, String login, String password, String nom, String prenom, String genre, LocalDate datenaiss, int idadmin) {
+    public Utilisateur(int iduser, String login, String password, String nom, String prenom, LocalDate datenaiss, String genre, int idadmin) {
         this.iduser = iduser;
         this.login = login;
         this.password = password;
