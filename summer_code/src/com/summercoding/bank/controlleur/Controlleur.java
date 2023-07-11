@@ -4,6 +4,7 @@ package com.summercoding.bank.controlleur;
 import com.summercoding.bank.gestionnaires.GestionnaireUtilisateur;
 import com.summercoding.bank.gestionnaires.GestionnaireAdmin;
 import com.summercoding.bank.entities.Admin;
+import com.summercoding.bank.entities.Compte;
 import com.summercoding.bank.entities.Utilisateur;
 import com.summercoding.bank.gestionnaires.GestionnaireCompte;
 import java.sql.SQLException;
@@ -34,8 +35,14 @@ public class Controlleur {
     public Admin routeVerslogin(String login , String pwd) throws SQLException{
         return gestionnaireAdmin.login(login, pwd);
     }
+    public Utilisateur routeVersloginuser(String login , String pwd) throws SQLException{
+        return gestionnaireUtilisateur.login(login, pwd);
+    }
     public List<Admin> routeVersListAllAdmin() throws SQLException{
         return gestionnaireAdmin.listAllAdmin();
+    }
+    public List<Compte> routeVersListAllCompte() throws SQLException{
+        return gestionnaireCompte.listAllCompte();
     }
     public List<Utilisateur> routeVersListAllUtilisateur() throws SQLException{
         return gestionnaireUtilisateur.listAllUtilisateur();

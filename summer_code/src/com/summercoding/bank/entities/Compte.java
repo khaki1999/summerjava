@@ -96,7 +96,7 @@ public class Compte {
              String cmd = "select * from compte where idcompte = ?";
              PreparedStatement stmt
                      =JDBC.getConnexion().prepareStatement(cmd);
-             stmt.setObject(1, idadmin);
+             stmt.setObject(1, idcompte);
              ResultSet rs =stmt.executeQuery();
              while(rs.next()){
                  return new Compte(rs.getInt(1),rs.getFloat(2),
@@ -105,7 +105,7 @@ public class Compte {
              return null;
     }
      public List <Compte> getAllCompte() throws SQLException{
-             String cmd = "select * from admin ";
+             String cmd = "select * from compte ";
              PreparedStatement stmt
                      =JDBC.getConnexion().prepareStatement(cmd);
              ResultSet rs =stmt.executeQuery();
