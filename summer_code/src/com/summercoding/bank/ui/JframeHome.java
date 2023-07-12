@@ -13,7 +13,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import static org.omg.CORBA.ORB.init;
 
 /**
  *
@@ -21,6 +24,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JframeHome extends javax.swing.JFrame {
     Controlleur controlleur = new Controlleur();
+    String quelMenu;
+    
+    
 
     /**
      * Creates new form JframeHome
@@ -64,6 +70,11 @@ public class JframeHome extends javax.swing.JFrame {
 
             }
         ));
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -82,6 +93,11 @@ public class JframeHome extends javax.swing.JFrame {
         MenuAdmin.setText("Admin");
 
         MenuItemCreerAdmin.setText("Creer");
+        MenuItemCreerAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuItemCreerAdminActionPerformed(evt);
+            }
+        });
         MenuAdmin.add(MenuItemCreerAdmin);
 
         MenuItemListeAdmin.setText("Liste");
@@ -97,6 +113,11 @@ public class JframeHome extends javax.swing.JFrame {
         MenuUser.setText("User");
 
         MenuItemCreerUser.setText("Creer");
+        MenuItemCreerUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuItemCreerUserActionPerformed(evt);
+            }
+        });
         MenuUser.add(MenuItemCreerUser);
 
         MenuItemListeUser.setText("Liste");
@@ -112,6 +133,11 @@ public class JframeHome extends javax.swing.JFrame {
         jMenu4.setText("Compte");
 
         MenuItemCreerCompte.setText("Creer");
+        MenuItemCreerCompte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuItemCreerCompteActionPerformed(evt);
+            }
+        });
         jMenu4.add(MenuItemCreerCompte);
 
         MenuItemListeCompte.setText("Liste");
@@ -149,6 +175,7 @@ public class JframeHome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MenuItemListeAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemListeAdminActionPerformed
+        quelMenu = "admin";
         try {
             // TODO add your handling code here:
             List<Admin> listAdmin = controlleur.routeVersListAllAdmin();
@@ -166,15 +193,21 @@ public class JframeHome extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuItemListeAdminActionPerformed
 
     private void MenuItemListeUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemListeUserActionPerformed
+        quelMenu = "User";
         try {
             // TODO add your handling code here:
             List<Utilisateur> listUtilisateur = controlleur.routeVersListAllUtilisateur();
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Id");
-            model.addColumn("Nom");
             model.addColumn("Login");
-            for (Utilisateur ad : listUtilisateur)
-                model.addRow(new String[]{ad.getIduser()+"",ad.getNom(),ad.getLogin()});
+            model.addColumn("Password");
+            model.addColumn("Nom");
+            model.addColumn("Prenom");
+            model.addColumn("Date de naissance");
+            model.addColumn("Genre");
+            model.addColumn("IdAdmin");
+            for (Utilisateur us : listUtilisateur)
+                model.addRow(new String[]{us.getIduser()+"",us.getLogin(),us.getPassword(),us.getNom(),us.getPrenom(),us.getDatenaiss()+"",us.getGenre(),us.getIdadmin()+""});
             table.setModel(model);
         } catch (SQLException ex) {
             Logger.getLogger(JframeHome.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,6 +229,52 @@ public class JframeHome extends javax.swing.JFrame {
             Logger.getLogger(JframeHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_MenuItemListeCompteActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        int numeroLigne = table.getSelectedRow();
+        TableModel model = table.getModel();
+        
+        if(quelMenu.equals("admin")){
+            try {
+                String id = model.getValueAt(numeroLigne, 0).toString();
+                int idadmin = Integer.parseInt(id);
+                
+                JframeSaveAdmin jFrameAdmin =
+                        new JframeSaveAdmin("Update", idadmin, this);
+                jFrameAdmin.setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(JframeHome.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if(quelMenu.equals("User")){
+            
+            String id = model.getValueAt(numeroLigne, 0).toString();
+                int iduser = Integer.parseInt(id);
+                
+                Jframesaveutilisateur jFrameUtilisateur =
+                        new Jframesaveutilisateur("Update", iduser, this);
+                jFrameUtilisateur.setVisible(true);
+           }
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void MenuItemCreerAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemCreerAdminActionPerformed
+        try {
+            // TODO add your handling code here:
+            new JframeSaveAdmin("add", 0, this).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(JframeHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_MenuItemCreerAdminActionPerformed
+
+    private void MenuItemCreerUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemCreerUserActionPerformed
+        // TODO add your handling code here:
+        new Jframesaveutilisateur("Add", 0, this).setVisible(true);
+        
+    }//GEN-LAST:event_MenuItemCreerUserActionPerformed
+
+    private void MenuItemCreerCompteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemCreerCompteActionPerformed
+        new Jframesavecompte().setVisible(true);
+    }//GEN-LAST:event_MenuItemCreerCompteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,6 +309,14 @@ public class JframeHome extends javax.swing.JFrame {
                 new JframeHome().setVisible(true);
             }
         });
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

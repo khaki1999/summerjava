@@ -23,8 +23,9 @@ public class Jframesavecompte extends javax.swing.JFrame {
 
     /**
      * Creates new form Jframesavecompte
+     * @throws java.sql.SQLException
      */
-    public Jframesavecompte() throws SQLException {
+    public Jframesavecompte() {
         
         initComponents();
         
@@ -32,14 +33,18 @@ public class Jframesavecompte extends javax.swing.JFrame {
         
     }    
         
-    private void initOtherComponents() throws SQLException{
+    private void initOtherComponents() {
         
-       for(Admin admin : controlleur.routeVersListAllAdmin()){
+        try {
+            for(Admin admin : controlleur.routeVersListAllAdmin()){
                 ComboBoxIdadmin.addItem(admin.getIdadmin()+" "+admin.getLogin());
             }
             for(Utilisateur utilisateur : controlleur.routeVersListAllUtilisateur()){
                 ComboBoxIduser.addItem(utilisateur.getIduser()+" "+utilisateur.getLogin());
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jframesavecompte.class.getName()).log(Level.SEVERE, null, ex);
+        }
             
     }        
             
@@ -240,11 +245,9 @@ public class Jframesavecompte extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
+              
                     new Jframesavecompte().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Jframesavecompte.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                
             }
         });
     }

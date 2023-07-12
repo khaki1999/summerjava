@@ -82,7 +82,7 @@ public class Admin {
     }
      public void Delete(int idadmin ) throws SQLException{
         
-            String command = "DELETE FROM admin WHERE `admin`.`idadmin` = ?";
+            String command = "DELETE FROM admin WHERE admin.idadmin = ?";
             
             PreparedStatement addstmt =
                     JDBC.getConnexion().prepareStatement(command);

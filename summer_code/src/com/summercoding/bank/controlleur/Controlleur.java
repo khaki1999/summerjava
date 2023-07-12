@@ -28,8 +28,8 @@ public class Controlleur {
     GestionnaireUtilisateur gestionnaireUtilisateur = new GestionnaireUtilisateur();
     GestionnaireCompte gestionnaireCompte = new GestionnaireCompte();
    
-       public void routeversUtilisateur(String login , String password , String nom , String prenom,LocalDate datenaiss,String genre,int idadmin) throws SQLException{
-        gestionnaireUtilisateur.saveUtilisateur(login, password, nom, prenom, datenaiss, genre, idadmin);
+       public void routeverssaveUtilisateur(int iduser,String login , String password , String nom , String prenom,LocalDate datenaiss,String genre,int idadmin) throws SQLException{
+        gestionnaireUtilisateur.saveUtilisateur(iduser, login, password, nom, prenom, datenaiss, genre, idadmin);
        } 
    
     public Admin routeVerslogin(String login , String pwd) throws SQLException{
@@ -50,8 +50,33 @@ public class Controlleur {
     public void routeVerssaveCompte(float solde , int iduser, int idadmin) throws SQLException{
         gestionnaireCompte.saveCompte(solde, iduser, idadmin);
     }
+    public void routeVerssaveAdmin(String login , String password , String nom) throws SQLException{
+        gestionnaireAdmin.saveAdmin(login, password, nom);
+    }
+    public Admin routeVersAdminDetails(int idadmin) throws SQLException{
+        return gestionnaireAdmin.getAdminDetails(idadmin);
+    }
+    
+    public Utilisateur routeVersUtilisateurDetails(int iduser) throws SQLException{
+        return gestionnaireUtilisateur.getUtilisateurDetails(iduser);
+    }
+     public void routeVersUpdate(int idadmin ,String login , String password ,String nom) throws SQLException{
+         gestionnaireAdmin.updateAdmin(idadmin, login, password, nom);
+    }
+     
+      public void routeVersUpdateUser(int iduser ,String login , String password , String nom, String prenom ,LocalDate datenaiss, String genre , int idadmin) throws SQLException{
+         gestionnaireUtilisateur.updateUtilisateur(iduser, login, password, nom, prenom, datenaiss, genre, idadmin);
+    }
+     
+      public void routeVersDelete(int idadmin ,String login , String password ,String nom) throws SQLException{
+         gestionnaireAdmin.deleteAdmin(idadmin);
+    }
 
     public void routeVerssaveCompte(double solde, int Iduser, int Idadmin) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void routeVerssaveAdmin(String login, String pwd, String nom, String idAdmin) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

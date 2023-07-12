@@ -7,11 +7,14 @@ package com.summercoding.bank.ui;
 
 import com.summercoding.bank.controlleur.Controlleur;
 import com.summercoding.bank.entities.Admin;
+import com.summercoding.bank.entities.Utilisateur;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,12 +22,19 @@ import javax.swing.JOptionPane;
  */
 public class Jframesaveutilisateur extends javax.swing.JFrame {
     Controlleur controlleur = new Controlleur();
+    JframeHome homePage;
+    String quelAction ;
 
 
     /**
      * Creates new form Jframesaveutilisateur
+     * param action
+     * param idadmin
+     * @param action
+     * @param idadmin
+     * @param hp
      */
-    public Jframesaveutilisateur() {
+    public Jframesaveutilisateur(String action, int iduser, JframeHome hp) {
         initComponents();
         Radiofeminin.setSelected(true);
         for(int i = 2023; i>=1900 ; i--){
@@ -38,13 +48,53 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
         }
         try {
             for(Admin admin : controlleur.routeVersListAllAdmin()){
-                ComboBoxIdadmin.addItem(admin.getIdadmin()+""+admin.getLogin());
+                ComboBoxIdadmin.addItem(admin.getIdadmin()+" "+admin.getLogin());
             }
         } catch (SQLException ex) {
             Logger.getLogger(Jframesaveutilisateur.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        homePage = hp;
+        quelAction = action;
+        if(quelAction.equals("add")){
+            ButtonUpdateUser.setVisible(false);
+            ButtonDeleteUser.setVisible(false);
+            LabelIduser.setVisible(false);
+            ComboBoxIdadmin.setVisible(false);
+        }else if (quelAction.equalsIgnoreCase("update")){
+            try {
+                Utilisateur utilisateur = controlleur.routeVersUtilisateurDetails(iduser);
+                champLogin.setText(utilisateur.getLogin());
+                champPassword.setText(utilisateur.getPassword());
+                champNom.setText(utilisateur.getNom());
+                champPrenom.setText(utilisateur.getPrenom());
+                
+                if(utilisateur.getGenre().contains("F")){
+                    Radiomasculin.setSelected(false);
+                    Radiofeminin.setSelected(true);
+                }else{
+                    Radiomasculin.setSelected(true);
+                    Radiofeminin.setSelected(false);
+                }
+                
+                LocalDate dateNais = utilisateur.getDatenaiss();
+                ComboBoxAnnee.setSelectedItem(dateNais.getYear()+"");
+                ComboBoxMois.setSelectedItem(dateNais.getMonth()+"");
+                ComboBoxJour.setSelectedItem(dateNais.getDayOfMonth()+"");
+                
+                Admin admin = controlleur.routeVersAdminDetails(utilisateur.getIdadmin());
+                ComboBoxIdadmin.setSelectedItem(admin.getIdadmin()+" "+admin.getLogin());
+                
+                champIdUser.setText(utilisateur.getIduser()+"");
+            } catch (SQLException ex) {
+                Logger.getLogger(Jframesaveutilisateur.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
        
     }
+
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,9 +112,8 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        LabelIdadmin = new javax.swing.JLabel();
         ButtonAnnuler = new javax.swing.JButton();
-        ButtonOk = new javax.swing.JButton();
         champLogin = new javax.swing.JTextField();
         champPassword = new javax.swing.JTextField();
         champNom = new javax.swing.JTextField();
@@ -75,8 +124,13 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
         ComboBoxIdadmin = new javax.swing.JComboBox();
         Radiomasculin = new javax.swing.JRadioButton();
         Radiofeminin = new javax.swing.JRadioButton();
+        ButtonAddUser = new javax.swing.JButton();
+        ButtonDeleteUser = new javax.swing.JButton();
+        ButtonUpdateUser = new javax.swing.JButton();
+        LabelIduser = new javax.swing.JLabel();
+        champIdUser = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("login");
 
@@ -90,16 +144,9 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
 
         jLabel6.setText("genre");
 
-        jLabel7.setText("idadmin");
+        LabelIdadmin.setText("idadmin");
 
-        ButtonAnnuler.setText("Annuler");
-
-        ButtonOk.setText("ok");
-        ButtonOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonOkActionPerformed(evt);
-            }
-        });
+        ButtonAnnuler.setText("cancel");
 
         champNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,14 +172,34 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
             }
         });
 
-        Radiomasculin.setText("Homme");
+        Radiomasculin.setText("M");
 
-        Radiofeminin.setText("Femme");
+        Radiofeminin.setText("F");
         Radiofeminin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RadiofemininActionPerformed(evt);
             }
         });
+
+        ButtonAddUser.setText("Add");
+        ButtonAddUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAddUserActionPerformed(evt);
+            }
+        });
+
+        ButtonDeleteUser.setText("delete");
+
+        ButtonUpdateUser.setText("Update");
+        ButtonUpdateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonUpdateUserActionPerformed(evt);
+            }
+        });
+
+        LabelIduser.setText("iduser");
+
+        champIdUser.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,6 +209,18 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(LabelIduser, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ButtonAnnuler)
+                        .addGap(18, 18, 18)
+                        .addComponent(ButtonDeleteUser)
+                        .addGap(18, 18, 18)
+                        .addComponent(ButtonUpdateUser)
+                        .addGap(18, 18, 18)
+                        .addComponent(ButtonAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -149,30 +228,31 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(LabelIdadmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(champPassword)
-                            .addComponent(champLogin)
-                            .addComponent(champNom)
-                            .addComponent(ComboBoxIdadmin, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(champPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(ComboBoxAnnee, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ComboBoxMois, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ComboBoxJour, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(94, 94, 94)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(Radiofeminin)
                                     .addComponent(Radiomasculin))
-                                .addGap(0, 2, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(ButtonAnnuler)
-                        .addGap(18, 18, 18)
-                        .addComponent(ButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(champIdUser)
+                                    .addComponent(champPassword)
+                                    .addComponent(champNom)
+                                    .addComponent(ComboBoxIdadmin, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(champLogin)
+                                    .addComponent(champPrenom)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(63, 63, 63)
+                                        .addComponent(ComboBoxAnnee, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(ComboBoxMois, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(ComboBoxJour, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 14, Short.MAX_VALUE)))))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -203,21 +283,27 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addComponent(Radiomasculin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Radiofeminin)
-                        .addGap(18, 18, 18)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Radiofeminin)))
+                .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelIdadmin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ComboBoxIdadmin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonOk)
-                    .addComponent(ButtonAnnuler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(LabelIduser, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(champIdUser, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ButtonAnnuler)
+                        .addComponent(ButtonDeleteUser)
+                        .addComponent(ButtonUpdateUser))
+                    .addComponent(ButtonAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -243,7 +329,7 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboBoxAnneeActionPerformed
 
-    private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOkActionPerformed
+    private void ButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddUserActionPerformed
         // TODO add your handling code here:
                 try {
             // TODO add your handling code here:
@@ -251,6 +337,7 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
             String pwd = champPassword.getText();
             String nom = champNom.getText();
             String prenom = champPrenom.getText();
+            String iduser = champIdUser.getText();
             //genre avec type String
             String genre = Radiofeminin.getText();
             if(Radiomasculin.isSelected())
@@ -263,7 +350,18 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
             
             String idAdminString = ComboBoxIdadmin.getSelectedItem().toString().split("")[0];
             int idAdmin = Integer.parseInt(idAdminString);
-            controlleur.routeversUtilisateur(login, pwd, nom, prenom, datenaiss, genre, idAdmin);
+            
+            String idUserString = champIdUser.getText().toString();
+            int idUser = Integer.parseInt(idUserString);
+            
+               controlleur.routeverssaveUtilisateur(idUser, login, pwd, nom, prenom, datenaiss, genre, idAdmin);
+            
+            this.dispose();
+            
+            refreshTable();
+            this.setVisible(false);
+            
+            
             JOptionPane.showMessageDialog(null, "sucess");
         } catch (SQLException ex) {
             Logger.getLogger(Jframesaveutilisateur.class.getName()).log(Level.SEVERE, null, ex);
@@ -271,7 +369,7 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
         }
         
 
-    }//GEN-LAST:event_ButtonOkActionPerformed
+    }//GEN-LAST:event_ButtonAddUserActionPerformed
 
     private void RadiofemininActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadiofemininActionPerformed
         // TODO add your handling code here:
@@ -289,6 +387,42 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
     private void ComboBoxJourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxJourActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboBoxJourActionPerformed
+
+    private void ButtonUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateUserActionPerformed
+        try {
+            // TODO add your handling code here:
+            String login = champLogin.getText();
+            String pwd = champPassword.getText();
+            String nom = champNom.getText();
+            String prenom = champPrenom.getText();
+            //genre avec type String
+            String genre = Radiofeminin.getText();
+            if(Radiomasculin.isSelected())
+                genre = Radiomasculin.getText();
+            
+            int annee = Integer.parseInt(ComboBoxAnnee.getSelectedItem().toString()) ;
+            int mois = Integer.parseInt(ComboBoxMois.getSelectedItem().toString()) ;
+            int jour =  Integer.parseInt(ComboBoxJour.getSelectedItem().toString()) ;
+            LocalDate datenaiss = LocalDate.of(annee, mois, jour);
+            
+            System.out.println("datenaiss = "+datenaiss);
+            
+            String idAdminString = ComboBoxIdadmin.getSelectedItem().toString().split("")[0];
+            int idAdmin = Integer.parseInt(idAdminString);
+             String idUserString = champIdUser.getText();
+             int idUser = Integer.parseInt(idUserString);
+            controlleur.routeVersUpdateUser(idUser, login, pwd, nom, prenom, datenaiss, genre, idAdmin);
+            
+            this.dispose();
+            
+            //mettre a jour le table
+            refreshTable();
+            
+            JOptionPane.showMessageDialog(null, "sucess");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jframesaveutilisateur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ButtonUpdateUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,20 +454,49 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Jframesaveutilisateur().setVisible(true);
+                new Jframesaveutilisateur("Add",0,null).setVisible(true);
             }
         });
     }
+    
+    private void refreshTable() throws SQLException{
+        List<Utilisateur> lisUtilisateur = controlleur.routeVersListAllUtilisateur();
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Login");
+        model.addColumn("password");
+        model.addColumn("Nom");
+        model.addColumn("prenom");
+        model.addColumn("date de naissance");
+        model.addColumn("genre");
+        model.addColumn("Idadmin");
+        model.addColumn("Iduser");
+        
+        for( Utilisateur us : lisUtilisateur ){
+            model.addRow(new String[]{us.getIduser()+"",us.getLogin(),us.getPassword(),us.getNom(),us.getPrenom(),us.getDatenaiss()+"",us.getGenre(),us.getIdadmin()+""});
+        }
+        
+         homePage.getTable().setModel(model);
+    }
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonAddUser;
     private javax.swing.JButton ButtonAnnuler;
-    private javax.swing.JButton ButtonOk;
+    private javax.swing.JButton ButtonDeleteUser;
+    private javax.swing.JButton ButtonUpdateUser;
     private javax.swing.JComboBox ComboBoxAnnee;
     private javax.swing.JComboBox ComboBoxIdadmin;
     private javax.swing.JComboBox ComboBoxJour;
     private javax.swing.JComboBox ComboBoxMois;
+    private javax.swing.JLabel LabelIdadmin;
+    private javax.swing.JLabel LabelIduser;
     private javax.swing.JRadioButton Radiofeminin;
     private javax.swing.JRadioButton Radiomasculin;
+    private javax.swing.JTextField champIdUser;
     private javax.swing.JTextField champLogin;
     private javax.swing.JTextField champNom;
     private javax.swing.JTextField champPassword;
@@ -344,7 +507,6 @@ public class Jframesaveutilisateur extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
