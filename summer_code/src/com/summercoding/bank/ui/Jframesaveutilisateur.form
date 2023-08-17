@@ -48,16 +48,16 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="LabelIduser" min="-2" pref="73" max="-2" attributes="0"/>
+                          <Component id="labelIduser" min="-2" pref="73" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="ButtonAnnuler" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="ButtonDeleteUser" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonDeleteUser" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="ButtonUpdateUser" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonUpdateUser" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="ButtonAddUser" min="-2" pref="85" max="-2" attributes="0"/>
                       </Group>
@@ -74,9 +74,9 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="Radiofeminin" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="Radiomasculin" min="-2" max="-2" attributes="0"/>
+                                      <Component id="Radiofeminin" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -86,7 +86,7 @@
                                       <Component id="champIdUser" max="32767" attributes="0"/>
                                       <Component id="champPassword" max="32767" attributes="0"/>
                                       <Component id="champNom" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="ComboBoxIdadmin" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="comboBoxIdadmin" alignment="1" max="32767" attributes="0"/>
                                       <Component id="champLogin" alignment="0" max="32767" attributes="0"/>
                                       <Component id="champPrenom" alignment="0" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
@@ -137,34 +137,35 @@
                       <Component id="ComboBoxMois" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="ComboBoxJour" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" pref="31" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="Radiomasculin" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="Radiofeminin" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="LabelIdadmin" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="ComboBoxIdadmin" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="comboBoxIdadmin" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="41" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="LabelIduser" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="labelIduser" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="champIdUser" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="ButtonAnnuler" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ButtonDeleteUser" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ButtonUpdateUser" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonDeleteUser" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonUpdateUser" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="ButtonAddUser" max="32767" attributes="0"/>
                   </Group>
@@ -255,7 +256,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBoxJourActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="ComboBoxIdadmin">
+        <Component class="javax.swing.JComboBox" name="comboBoxIdadmin">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
@@ -283,20 +284,23 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonAddUserActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonDeleteUser">
+        <Component class="javax.swing.JButton" name="buttonDeleteUser">
           <Properties>
             <Property name="text" type="java.lang.String" value="delete"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDeleteUserActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonUpdateUser">
+        <Component class="javax.swing.JButton" name="buttonUpdateUser">
           <Properties>
             <Property name="text" type="java.lang.String" value="Update"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonUpdateUserActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonUpdateUserActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="LabelIduser">
+        <Component class="javax.swing.JLabel" name="labelIduser">
           <Properties>
             <Property name="text" type="java.lang.String" value="iduser"/>
           </Properties>

@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class JframeLogin extends javax.swing.JFrame {
     Controlleur controlleur = new Controlleur();
-    JframeHome homepage = new JframeHome();
+    JframeHome homepage ;
 
     /**
      * Creates new form JframeLogin
@@ -144,7 +144,7 @@ public class JframeLogin extends javax.swing.JFrame {
                         //JOptionPane.showMessageDialog(null, "Success");
 
                         this.setVisible(false);
-
+                        homepage = new JframeHome("admin");
                         homepage.setVisible(true);
                     }
                 } catch (SQLException ex) {
@@ -160,7 +160,11 @@ public class JframeLogin extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Login ou Password incorrect");
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Success");
+                        this.setVisible(false);
+                        homepage = new JframeHome("Utilisateur");
+                        homepage.setVisible(true);
+                   
+                        //JOptionPane.showMessageDialog(null, "Success");
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(JframeLogin.class.getName()).log(Level.SEVERE, null, ex);

@@ -28,8 +28,8 @@ public class Controlleur {
     GestionnaireUtilisateur gestionnaireUtilisateur = new GestionnaireUtilisateur();
     GestionnaireCompte gestionnaireCompte = new GestionnaireCompte();
    
-       public void routeverssaveUtilisateur(int iduser,String login , String password , String nom , String prenom,LocalDate datenaiss,String genre,int idadmin) throws SQLException{
-        gestionnaireUtilisateur.saveUtilisateur(iduser, login, password, nom, prenom, datenaiss, genre, idadmin);
+       public void routeverssaveUtilisateur(String login , String password , String nom , String prenom,LocalDate datenaiss,String genre,int idadmin) throws SQLException{
+        gestionnaireUtilisateur.saveUtilisateur( login, password, nom, prenom, datenaiss, genre, idadmin);
        } 
    
     public Admin routeVerslogin(String login , String pwd) throws SQLException{
@@ -66,6 +66,10 @@ public class Controlleur {
      
       public void routeVersUpdateUser(int iduser ,String login , String password , String nom, String prenom ,LocalDate datenaiss, String genre , int idadmin) throws SQLException{
          gestionnaireUtilisateur.updateUtilisateur(iduser, login, password, nom, prenom, datenaiss, genre, idadmin);
+    }
+      
+      public void routeVersdeleteUser(int iduser ,String login , String password , String nom, String prenom ,LocalDate datenaiss, String genre , int idadmin) throws SQLException{
+         gestionnaireUtilisateur.deleteUtilisateur(iduser);
     }
      
       public void routeVersDelete(int idadmin ,String login , String password ,String nom) throws SQLException{

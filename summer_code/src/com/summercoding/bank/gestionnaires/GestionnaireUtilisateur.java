@@ -26,17 +26,22 @@ public class GestionnaireUtilisateur {
         
     }
     
-    public  void saveUtilisateur(int iduser,String login , String password , String nom, String prenom , LocalDate datenaiss , String genre ,int idadminn) throws SQLException {
-        utilisateur.save(iduser, login, password, nom, prenom, datenaiss, genre, idadminn);
+    public  void saveUtilisateur(String login , String password , String nom, String prenom , LocalDate datenaiss , String genre ,int idadmin) throws SQLException {
+        utilisateur.save( login, password, nom, prenom, datenaiss, genre, idadmin);
         
     }
     
      public void updateUtilisateur(int iduser ,String login , String password , String nom, String prenom ,LocalDate datenaiss, String genre , int idadmin) throws SQLException{
-        utilisateur.update(idadmin, login, password, nom, nom,datenaiss, nom, idadmin);
+        utilisateur.update(iduser, login, password, nom, nom,datenaiss, nom, idadmin);
     }
      
      public Utilisateur getUtilisateurDetails(int iduser) throws SQLException{
         return utilisateur.getOne(iduser);
+    }
+     
+     public  void deleteUtilisateur(int iduser) throws SQLException {
+        utilisateur.Delete(iduser);
+        
     }
     
 

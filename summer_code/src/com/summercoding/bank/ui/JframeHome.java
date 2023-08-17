@@ -31,8 +31,14 @@ public class JframeHome extends javax.swing.JFrame {
     /**
      * Creates new form JframeHome
      */
-    public JframeHome() {
+    public JframeHome(String type) {
         initComponents();
+        
+        if(type.equalsIgnoreCase("Utilisateur")){
+            menuAdmin.setVisible(false);
+            MenuUser.setVisible(false);
+            MenuItemCreerCompte.setVisible(false);
+        }
     }
 
     /**
@@ -48,7 +54,7 @@ public class JframeHome extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        MenuAdmin = new javax.swing.JMenu();
+        menuAdmin = new javax.swing.JMenu();
         MenuItemCreerAdmin = new javax.swing.JMenuItem();
         MenuItemListeAdmin = new javax.swing.JMenuItem();
         MenuUser = new javax.swing.JMenu();
@@ -90,7 +96,7 @@ public class JframeHome extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        MenuAdmin.setText("Admin");
+        menuAdmin.setText("Admin");
 
         MenuItemCreerAdmin.setText("Creer");
         MenuItemCreerAdmin.addActionListener(new java.awt.event.ActionListener() {
@@ -98,7 +104,7 @@ public class JframeHome extends javax.swing.JFrame {
                 MenuItemCreerAdminActionPerformed(evt);
             }
         });
-        MenuAdmin.add(MenuItemCreerAdmin);
+        menuAdmin.add(MenuItemCreerAdmin);
 
         MenuItemListeAdmin.setText("Liste");
         MenuItemListeAdmin.addActionListener(new java.awt.event.ActionListener() {
@@ -106,9 +112,9 @@ public class JframeHome extends javax.swing.JFrame {
                 MenuItemListeAdminActionPerformed(evt);
             }
         });
-        MenuAdmin.add(MenuItemListeAdmin);
+        menuAdmin.add(MenuItemListeAdmin);
 
-        jMenuBar1.add(MenuAdmin);
+        jMenuBar1.add(menuAdmin);
 
         MenuUser.setText("User");
 
@@ -306,7 +312,7 @@ public class JframeHome extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JframeHome().setVisible(true);
+                new JframeHome("admin").setVisible(true);
             }
         });
     }
@@ -320,7 +326,6 @@ public class JframeHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu MenuAdmin;
     private javax.swing.JMenuItem MenuItemCreerAdmin;
     private javax.swing.JMenuItem MenuItemCreerCompte;
     private javax.swing.JMenuItem MenuItemCreerUser;
@@ -334,6 +339,7 @@ public class JframeHome extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu menuAdmin;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

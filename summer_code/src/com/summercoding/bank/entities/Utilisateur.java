@@ -100,9 +100,9 @@ public class Utilisateur {
     }
     
     
-    public void save (int iduser,String login , String password , String nom, String prenom , LocalDate datenaiss , String genre ,int idadmin)throws SQLException{
+    public void save (String login , String password , String nom, String prenom , LocalDate datenaiss , String genre ,int idadmin)throws SQLException{
  
-            String command = "INSERT INTO utilisateur(login , password ,nom ,prenom ,datenaiss ,genre,idadmin,iduser) VALUES (?,?,?,?,?,?,?,?)";
+            String command = "INSERT INTO utilisateur(login , password ,nom ,prenom ,datenaiss ,genre,idadmin) VALUES (?,?,?,?,?,?,?)";
             
             PreparedStatement addstmt =
                     JDBC.getConnexion().prepareStatement(command);
@@ -113,7 +113,6 @@ public class Utilisateur {
             addstmt.setObject(5,datenaiss);
             addstmt.setObject(6, genre);
             addstmt.setObject(7, idadmin);
-            addstmt.setObject(8, iduser);
             addstmt.execute();
         
     }
@@ -129,7 +128,7 @@ public class Utilisateur {
             addstmt.setObject(4, prenom);
             addstmt.setObject(5,datenaiss);
             addstmt.setObject(6, genre);
-            addstmt.setObject(7, idadmin);
+            addstmt.setObject(7, iduser);
             addstmt.execute();
     }
      public void Delete(int iduser ) throws SQLException{
